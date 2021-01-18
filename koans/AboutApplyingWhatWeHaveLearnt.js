@@ -40,14 +40,9 @@ describe("About Applying What We Have Learnt", function() {
       var productsICanEat = [];
 
       /* solve using filter() & all() / any() */
-
-      const productsFiltredByNuts = products.filter(
-        (el) => {
-          if (!el.containsNuts) return true;
-        }
-      )
       
-      productsFiltredByNuts.some(
+      const productsFiltredByNuts = _
+      .filter(products, (product) => !product.containsNuts).some(
         (el) => {
           if (!el.ingredients.includes("mushrooms")) {
             productsICanEat.push(el);
@@ -101,15 +96,22 @@ describe("About Applying What We Have Learnt", function() {
         }
     }
 
-    expect(ingredientCount['mushrooms']).toBe(FILL_ME_IN);
+    expect(ingredientCount['mushrooms']).toBe(2);
   });
 
   it("should count the ingredient occurrence (functional)", function () {
     var ingredientCount = { "{ingredient name}": 0 };
 
     /* chain() together map(), flatten() and reduce() */
+    var ingrList = _(products)
+    .chain()
+    .map((el) => {return el.ingredients})
+    .flatten()
+    .value().reduce((_prevValue, currentValue) => {
+       ingredientCount[currentValue] = (ingredientCount[currentValue] || 0) + 1;
+    }, null);
 
-    expect(ingredientCount['mushrooms']).toBe(FILL_ME_IN);
+    expect(ingredientCount['mushrooms']).toBe(2);
   });
 
   /*********************************************************************************/
